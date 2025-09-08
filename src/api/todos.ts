@@ -7,8 +7,14 @@ export const getTodos = () => {
   return client.get<Todo[]>(`/todos?userId=${USER_ID}`);
 };
 
+type PartialTodo = {
+  userId: number;
+  title: string;
+  completed: boolean;
+};
+
 export const postTodo = (title: string) => {
-  return client.post<Todo>(`/todos`, {
+  return client.post<Todo, PartialTodo>(`/todos`, {
     userId: USER_ID,
     title: title,
     completed: false,
@@ -16,7 +22,7 @@ export const postTodo = (title: string) => {
 };
 
 export const patchTodo = (id: number, todo: Partial<Todo>) => {
-  return client.patch<Todo>(`/todos/${id}`, todo);
+  return client.patch<Todo, Partial<Todo>>(`/todos/${id}`, todo);
 };
 
 export const deleteTodo = (id: number) => {
